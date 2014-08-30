@@ -90,7 +90,7 @@ initializeCharge();
 
 $("#controls-submit").click(function() {
 numCharges = $("#numparticles").val();
-gravConstant = $("#gravstr").val();
+gravConstant = $("#gravstr").val()/100;
 allParticles = [];
 initializeCharge();
 });
