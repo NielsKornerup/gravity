@@ -88,6 +88,13 @@ function drawCharges() {
 }
 initializeCharge();
 
+$("#controls-submit").click(function() {
+numCharges = $("#numparticles").val();
+gravConstant = $("#gravstr").val();
+allParticles = [];
+initializeCharge();
+});
+
 function main() {
 moveCharges();
 drawCharges();
