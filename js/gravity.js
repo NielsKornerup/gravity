@@ -1,29 +1,29 @@
-var canvas = document.getElementById("charge-canvas");
+var canvas = document.getElementById("grav-canvas");
 var ctx = canvas.getContext("2d");
 var width = canvas.width;
 var height = canvas.height;
-var chargeSpeed = 2;
-var chargeMaxSize= 30;
-var numCharges = 5;
+var Speed = 2;
+var MaxSize= 30;
+var numGrav = 5;
 var allParticles=[];
 var gravConstant = .1;
 var PI = 3.141592;
 var maxSpeed = 10;
 var maxDist =900;
 
-function initializeCharge() {
-    for (var i = 0; i < numCharges; i++) {
-        var charge = new Object();
-	charge.radius = Math.random() * chargeMaxSize;
-        charge.x = (Math.random() * (width-5))+5;
-        charge.y = (Math.random() * (height-charge.radius))+charge.radius;
-        charge.xSpeed = Math.random() * chargeSpeed;
-        charge.ySpeed = Math.random() * chargeSpeed;
-	allParticles.push(charge);
+function initializeGrav() {
+    for (var i = 0; i < numGrav; i++) {
+        var grav = new Object();
+	grav.radius = Math.random() * gravMaxSize;
+        grav.x = (Math.random() * (width-5))+5;
+        grav.y = (Math.random() * (height-grav.radius))+grav.radius;
+        grav.xSpeed = Math.random() * gravSpeed;
+        grav.ySpeed = Math.random() * gravSpeed;
+	allParticles.push(grav);
     }
 }
 
-function moveCharges(){
+function moveGrav(){
 for (var x = 0; x < allParticles.length; x++) {
 for (var y = 0; y < allParticles.length; y++) {
 var difX = (allParticles[x].x-allParticles[y].x);
@@ -61,33 +61,33 @@ if(allParticles[x].y <= (allParticles[x].radius)){
 }
 }
 
-function drawCharges() {
+function drawGrav() {
     ctx.fillStyle = "rgba(255,255,255,.2)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < allParticles.length; i++) {
-        charge = allParticles[i];
+        gravity = allParticles[i];
         ctx.beginPath();
         var colorString = 'rgb(0,0,255)';
         //ctx.fillStyle = colorString;
         ctx.strokeStyle = colorString;
-        ctx.arc(charge.x /*- (charge.radius)*/, charge.y /*- (charge.radius)*/, charge.radius, 0, 2 * PI);
+        ctx.arc(gravity.x /*- (charge.radius)*/, gravity.y /*- (charge.radius)*/, gravity.radius, 0, 2 * PI);
         ctx.fill();
         ctx.stroke();
     }
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
-initializeCharge();
+initializeGrav();
 
 $("#controls-submit").click(function() {
-numCharges = $("#numparticles").val();
+numGrav = $("#numparticles").val();
 gravConstant = $("#gravstr").val()/100;
 allParticles = [];
-initializeCharge();
+initializeGrav();
 });
 
 function main() {
-moveCharges();
-drawCharges();
+moveGrav();
+drawGrav();
 requestAnimationFrame(main);
 };
 requestAnimationFrame(main);
