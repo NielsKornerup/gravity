@@ -17,8 +17,8 @@ function initializeGrav() {
 	grav.radius = Math.random() * MaxSize;
         grav.x = (Math.random() * (width-5))+5;
         grav.y = (Math.random() * (height-grav.radius))+grav.radius;
-        grav.xSpeed = Math.random() * gravSpeed;
-        grav.ySpeed = Math.random() * gravSpeed;
+        grav.xSpeed = Math.random() * maxSpeed;
+        grav.ySpeed = Math.random() * maxSpeed;
 	allParticles.push(grav);
     }
 }

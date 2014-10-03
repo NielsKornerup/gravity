@@ -14,7 +14,7 @@ var maxDist =900;
 function initializeGrav() {
     for (var i = 0; i < numGrav; i++) {
         var grav = new Object();
-	grav.radius = Math.random() * gravMaxSize;
+	grav.radius = Math.random() * MaxSize;
         grav.x = (Math.random() * (width-5))+5;
         grav.y = (Math.random() * (height-grav.radius))+grav.radius;
         grav.xSpeed = Math.random() * gravSpeed;
