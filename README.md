@@ -1,2 +1,3 @@
 Gravity
 =======
+This project simulates 2 dimensional gravitational attraction between objects. It can be found on [my homepage](http://nielskornerup.github.io). The force of attraction is equal to the product of the two masses divided by the distance between them squared. The algorithm can be found in gravity.js. I would like to implement my Elastic Collision simulator into this project, and I would also like to make this project work with different sized windows. To run this project locally, just clone the git repository, and the code can be run from index.html. I am not very good at writing READMEs, so please improve on this one if you can.
