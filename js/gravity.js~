@@ -6,7 +6,7 @@ var Speed = 2;
 var MaxSize= 30;
 var numGrav = 5;
 var allParticles=[];
-var gravConstant = .1;
+var gravConstant = 1;
 var PI = 3.141592;
 var maxSpeed = 10;
 var maxDist =900;
@@ -17,8 +17,8 @@ function initializeGrav() {
 	grav.radius = Math.random() * MaxSize;
         grav.x = (Math.random() * (width-5))+5;
         grav.y = (Math.random() * (height-grav.radius))+grav.radius;
-        grav.xSpeed = Math.random() * gravSpeed;
-        grav.ySpeed = Math.random() * gravSpeed;
+        grav.xSpeed = Math.random() * maxSpeed;
+        grav.ySpeed = Math.random() * maxSpeed;
 	allParticles.push(grav);
     }
 }
@@ -30,10 +30,10 @@ var difX = (allParticles[x].x-allParticles[y].x);
 var difY = (allParticles[x].y-allParticles[y].y);
 var dist =Math.sqrt((Math.pow(difX,2)+Math.pow(difY,2)));
 if(dist>5&&dist<maxDist){
-allParticles[x].xSpeed-=(difX*allParticles[y].radius*gravConstant)/Math.pow(dist,2);
-allParticles[x].ySpeed-=(difY*allParticles[y].radius*gravConstant)/Math.pow(dist,2);
-allParticles[y].xSpeed+=(difX*allParticles[x].radius*gravConstant)/Math.pow(dist,2);
-allParticles[y].ySpeed+=(difY*allParticles[x].radius*gravConstant)/Math.pow(dist,2);
+allParticles[x].xSpeed-=(difX*allParticles[y].radius*gravConstant)/Math.pow(dist,3);
+allParticles[x].ySpeed-=(difY*allParticles[y].radius*gravConstant)/Math.pow(dist,3);
+allParticles[y].xSpeed+=(difX*allParticles[x].radius*gravConstant)/Math.pow(dist,3);
+allParticles[y].ySpeed+=(difY*allParticles[x].radius*gravConstant)/Math.pow(dist,3);
 }
 }
 }
@@ -80,7 +80,7 @@ initializeGrav();
 
 $("#controls-submit").click(function() {
 numGrav = $("#numparticles").val();
-gravConstant = $("#gravstr").val()/100;
+gravConstant = $("#gravstr").val();
 allParticles = [];
 initializeGrav();
 });
