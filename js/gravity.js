@@ -25,7 +25,7 @@ function initializeGrav() {
 
 function moveGrav(){
 for (var x = 0; x < allParticles.length; x++) {
-for (var y = 0; y < allParticles.length; y++) {
+for (var y = x; y < allParticles.length; y++) {
 var difX = (allParticles[x].x-allParticles[y].x);
 var difY = (allParticles[x].y-allParticles[y].y);
 var dist =Math.sqrt((Math.pow(difX,2)+Math.pow(difY,2)));
