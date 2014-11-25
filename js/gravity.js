@@ -13,6 +13,8 @@ var maxDist =900;
 var collisions=false;
 
 function initializeGrav() {
+	document.getElementById('numparticles').value=numGrav;
+	document.getElementById('gravstr').value=gravConstant;
 	for (var i = 0; i < numGrav; i++) {
 		var grav = new Object();
 		grav.radius = Math.random() * MaxSize;
