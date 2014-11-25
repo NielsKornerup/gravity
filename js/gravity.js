@@ -13,62 +13,66 @@ var maxDist =900;
 var collisions=false;
 
 function initializeGrav() {
-    for (var i = 0; i < numGrav; i++) {
-        var grav = new Object();
-	grav.radius = Math.random() * MaxSize;
-	grav.mass = Math.pow(grav.radius,2);
-        grav.x = (Math.random() * (width-5))+5;
-        grav.y = (Math.random() * (height-grav.radius))+grav.radius;
-        grav.xSpeed = Math.random() * maxSpeed;
-        grav.ySpeed = Math.random() * maxSpeed;
-	allParticles.push(grav);
-	grav.newYSpeed=grav.ySpeed;
-	grav.newXSpeed=grav.xSpeed;
-	grav.newY=grav.y;
-	grav.newX=grav.x;
-    }
+	for (var i = 0; i < numGrav; i++) {
+		var grav = new Object();
+		grav.radius = Math.random() * MaxSize;
+		grav.mass = Math.pow(grav.radius,2);
+		grav.location = new Object();
+		grav.velocity = new Object();
+		grav.newLocation = new Object();
+		grav.newVelocity = new Object();
+		grav.location.x = (Math.random() * (width-5))+5;
+		grav.location.y = (Math.random() * (height-grav.radius))+grav.radius;
+		grav.velocity.x = Math.random() * maxSpeed;
+		grav.velocity.y = Math.random() * maxSpeed;
+		allParticles.push(grav);
+		grav.newVelocity.y=grav.velocity.y;
+		grav.newVelocity.x=grav.velocity.x;
+		grav.newLocation.y=grav.location.y;
+		grav.newLocation.x=grav.location.x;
+	}
 }
 
 function bounce(allParticles){
 	for (var a = 0; a < allParticles.length; a++) {
-		allParticles[a].newYSpeed=allParticles[a].ySpeed;
-		allParticles[a].newXSpeed=allParticles[a].xSpeed;
-		allParticles[a].newX=allParticles[a].x;
-		allParticles[a].newY=allParticles[a].y;
+		allParticles[a].newVelocity.y=allParticles[a].velocity.y;
+		allParticles[a].newVelocity.x=allParticles[a].velocity.x;
+		allParticles[a].newLocation.x=allParticles[a].location.x;
+		allParticles[a].newLocation.y=allParticles[a].location.y;
 		for (var b = 0; b < allParticles.length; b++) {
-			var difX = (allParticles[a].x-allParticles[b].x);
-			var difY = (allParticles[a].y-allParticles[b].y);
+			var difX = (allParticles[a].location.x-allParticles[b].location.x);
+			var difY = (allParticles[a].location.y-allParticles[b].location.y);
 			var dist =Math.sqrt((Math.pow(difX,2)+Math.pow(difY,2)));
 			var aAngle = 0;
 			var bAngle = 0;
 			var caAngle = 0;
-			var difX2 = (allParticles[a].x-allParticles[b].x);
-			var difY2 = (allParticles[a].y-allParticles[b].y);
+			var difX2 = (allParticles[a].location.x-allParticles[b].location.x);
+			var difY2 = (allParticles[a].location.y-allParticles[b].location.y);
 			var dist2 =Math.sqrt((Math.pow(difX,2)+Math.pow(difY,2)));
 			if(dist!=0&&dist<=(allParticles[a].radius+allParticles[b].radius)){
-				var aSpeed = Math.sqrt(Math.pow(allParticles[a].xSpeed,2)+Math.pow(allParticles[a].ySpeed,2));
-				var bSpeed = Math.sqrt(Math.pow(allParticles[b].xSpeed,2)+Math.pow(allParticles[b].ySpeed,2));
+				var aSpeed = Math.sqrt(Math.pow(allParticles[a].velocity.x,2)+Math.pow(allParticles[a].velocity.y,2));
+				var bSpeed = Math.sqrt(Math.pow(allParticles[b].velocity.x,2)+Math.pow(allParticles[b].velocity.y,2));
 				while(bSpeed<=aSpeed&&dist2<(allParticles[a].radius+allParticles[b].radius)){
-					difX2 = (allParticles[a].newX-allParticles[b].x);
-					difY2 = (allParticles[a].newY-allParticles[b].y);
+					difX2 = (allParticles[a].newLocation.x-allParticles[b].location.x);
+					difY2 = (allParticles[a].newLocation.y-allParticles[b].location.y);
 					dist2 =Math.sqrt((Math.pow(difX2,2)+Math.pow(difY2,2)));
-					allParticles[a].newX=allParticles[a].newX-allParticles[a].xSpeed/10;
-					allParticles[a].newY=allParticles[a].newY-allParticles[a].ySpeed/10;
+					allParticles[a].newLocation.x=allParticles[a].newLocation.x-allParticles[a].velocity.x/10;
+					allParticles[a].newLocation.y=allParticles[a].newLocation.y-allParticles[a].velocity.y/10;
 				}
-				aAngle = Math.atan2(allParticles[a].ySpeed,allParticles[a].xSpeed);
-				bAngle = Math.atan2(allParticles[b].ySpeed,allParticles[b].xSpeed);
+				aAngle = Math.atan2(allParticles[a].velocity.y,allParticles[a].velocity.x);
+				bAngle = Math.atan2(allParticles[b].velocity.y,allParticles[b].velocity.x);
 				caAngle = Math.atan2(difY,difX);
 				caAngle += Math.PI/2;
-				allParticles[a].newYSpeed=(((allParticles[a].ySpeed*(allParticles[a].mass-allParticles[b].mass))+(2*allParticles[b].mass*allParticles[b].ySpeed))/(allParticles[a].mass+allParticles[b].mass));
-				allParticles[a].newXSpeed=(((allParticles[a].xSpeed*(allParticles[a].mass-allParticles[b].mass))+(2*allParticles[b].mass*allParticles[b].xSpeed))/(allParticles[a].mass+allParticles[b].mass));
+				allParticles[a].newVelocity.y=(((allParticles[a].velocity.y*(allParticles[a].mass-allParticles[b].mass))+(2*allParticles[b].mass*allParticles[b].velocity.y))/(allParticles[a].mass+allParticles[b].mass));
+				allParticles[a].newVelocity.x=(((allParticles[a].velocity.x*(allParticles[a].mass-allParticles[b].mass))+(2*allParticles[b].mass*allParticles[b].velocity.x))/(allParticles[a].mass+allParticles[b].mass));
 			}
 		}
 	}
 	for (var a = 0; a < allParticles.length; a++) {
-		allParticles[a].x=allParticles[a].newX;
-		allParticles[a].y=allParticles[a].newY;
-		allParticles[a].xSpeed=allParticles[a].newXSpeed;
-		allParticles[a].ySpeed=allParticles[a].newYSpeed;
+		allParticles[a].location.x=allParticles[a].newLocation.x;
+		allParticles[a].location.y=allParticles[a].newLocation.y;
+		allParticles[a].velocity.x=allParticles[a].newVelocity.x;
+		allParticles[a].velocity.y=allParticles[a].newVelocity.y;
 	}
 };
 
@@ -78,69 +82,70 @@ function moveGrav(){
 	}
 	for (var x = 0; x < allParticles.length; x++) {
 		for (var y = x; y < allParticles.length; y++) {
-			var difX = (allParticles[x].x-allParticles[y].x);
-			var difY = (allParticles[x].y-allParticles[y].y);
+			var difX = (allParticles[x].location.x-allParticles[y].location.x);
+			var difY = (allParticles[x].location.y-allParticles[y].location.y);
 			var dist =Math.sqrt((Math.pow(difX,2)+Math.pow(difY,2)));
 			if(dist>5&&dist<maxDist){
-				allParticles[x].xSpeed-=(difX*allParticles[y].radius*gravConstant)/Math.pow(dist,3);
-				allParticles[x].ySpeed-=(difY*allParticles[y].radius*gravConstant)/Math.pow(dist,3);
-				allParticles[y].xSpeed+=(difX*allParticles[x].radius*gravConstant)/Math.pow(dist,3);
-				allParticles[y].ySpeed+=(difY*allParticles[x].radius*gravConstant)/Math.pow(dist,3);
+				allParticles[x].velocity.x-=(difX*allParticles[y].radius*gravConstant)/Math.pow(dist,3);
+				allParticles[x].velocity.y-=(difY*allParticles[y].radius*gravConstant)/Math.pow(dist,3);
+				allParticles[y].velocity.x+=(difX*allParticles[x].radius*gravConstant)/Math.pow(dist,3);
+				allParticles[y].velocity.y+=(difY*allParticles[x].radius*gravConstant)/Math.pow(dist,3);
 			}
 		}
 	}
 	for (var x = 0; x < allParticles.length; x++) {
-		if(allParticles[x].xSpeed>maxSpeed){
-			allParticles[x].xSpeed=maxSpeed;
+		if(allParticles[x].velocity.x>maxSpeed){
+			allParticles[x].velocity.x=maxSpeed;
 		}
-		if(allParticles[x].ySpeed>maxSpeed){
-			allParticles[x].ySpeed=maxSpeed;
+		if(allParticles[x].velocity.y>maxSpeed){
+			allParticles[x].velocity.y=maxSpeed;
 		}
-		allParticles[x].x+=allParticles[x].xSpeed;
-		allParticles[x].y+=allParticles[x].ySpeed;
-		if (allParticles[x].x >= canvas.width-(allParticles[x].radius/2)) {
-			allParticles[x].xSpeed=-Math.abs(allParticles[x].xSpeed);
+		allParticles[x].location.x+=allParticles[x].velocity.x;
+		allParticles[x].location.y+=allParticles[x].velocity.y;
+		if (allParticles[x].location.x >= canvas.width-(allParticles[x].radius/2)) {
+			allParticles[x].velocity.x=-Math.abs(allParticles[x].velocity.x);
 		}
-		if(allParticles[x].x <= (allParticles[x].radius)){
-			allParticles[x].xSpeed=Math.abs(allParticles[x].xSpeed);
+		if(allParticles[x].location.x <= (allParticles[x].radius)){
+			allParticles[x].velocity.x=Math.abs(allParticles[x].velocity.x);
 		}
-	        if (allParticles[x].y >= canvas.height-(allParticles[x].radius/2)) {
-	        	allParticles[x].ySpeed = -Math.abs(allParticles[x].ySpeed);
+	        if (allParticles[x].location.y >= canvas.height-(allParticles[x].radius/2)) {
+	        	allParticles[x].velocity.y = -Math.abs(allParticles[x].velocity.y);
 		}
-		if(allParticles[x].y <= (allParticles[x].radius)){
-			allParticles[x].ySpeed = Math.abs(allParticles[x].ySpeed);
+		if(allParticles[x].location.y <= (allParticles[x].radius)){
+			allParticles[x].velocity.y = Math.abs(allParticles[x].velocity.y);
 		}
 	}
 }
 
 function drawGrav() {
-    ctx.fillStyle = "rgba(255,255,255,.2)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    for (var i = 0; i < allParticles.length; i++) {
-        gravity = allParticles[i];
-        ctx.beginPath();
-        var colorString = 'rgb(0,0,255)';
-        //ctx.fillStyle = colorString;
-        ctx.strokeStyle = colorString;
-        ctx.arc(gravity.x /*- (charge.radius)*/, gravity.y /*- (charge.radius)*/, gravity.radius, 0, 2 * PI);
-        ctx.fill();
-        ctx.stroke();
-    }
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = "rgba(255,255,255,.2)";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	for (var i = 0; i < allParticles.length; i++) {
+		gravity = allParticles[i];
+		ctx.beginPath();
+		var colorString = 'rgb(0,0,255)';
+		//ctx.fillStyle = colorString;
+		ctx.strokeStyle = colorString;
+		ctx.arc(gravity.location.x /*- (charge.radius)*/, gravity.location.y /*- (charge.radius)*/, gravity.radius, 0, 2 * PI);
+		ctx.fill();
+		ctx.stroke();
+	}
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
+
 initializeGrav();
 
 $("#controls-submit").click(function() {
-numGrav = $("#numparticles").val();
-gravConstant = $("#gravstr").val();
-collisions = $("#collisions").is(":checked");
-allParticles = [];
-initializeGrav();
+	numGrav = $("#numparticles").val();
+	gravConstant = $("#gravstr").val();
+	collisions = $("#collisions").is(":checked");
+	allParticles = [];
+	initializeGrav();
 });
 
 function main() {
-moveGrav();
-drawGrav();
-requestAnimationFrame(main);
+	moveGrav();
+	drawGrav();
+	requestAnimationFrame(main);
 };
 requestAnimationFrame(main);
